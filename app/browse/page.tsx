@@ -426,16 +426,22 @@ const BirthdayCenterCard = memo(function BirthdayCenterCard({ property }: { prop
           </div>
         )}
 
-        {/* Image Dots */}
+        {/* Thumbnails (visible on hover) — same as houses cards */}
         {imagesList.length > 1 && (
-          <div className="bc-card__dots">
-            {imagesList.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrentImageIndex(idx); }}
-                className={`bc-card__dot ${idx === currentImageIndex ? "bc-card__dot--active" : ""}`}
-              />
-            ))}
+          <div className="houses-card__thumbs bc-card__thumbs">
+            {[0, 1, 2].map((offset) => {
+              const idx = (currentImageIndex + offset) % imagesList.length;
+              const img = imagesList[idx];
+              return (
+                <button
+                  key={offset}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrentImageIndex(idx); }}
+                  className={`houses-card__thumb ${offset === 0 ? "houses-card__thumb--active" : ""}`}
+                >
+                  <Image src={img.startsWith("firestore://") ? (resolvedImages[img] || "/images/venues/garden-villa.jpg") : img} alt="" fill className="object-cover" />
+                </button>
+              )
+            })}
           </div>
         )}
       </div>
@@ -601,6 +607,7 @@ const FilterBar = memo(function FilterBar({
   const [openFilter, setOpenFilter] = useState<string | null>(null)
   const barRef = useRef<HTMLDivElement>(null)
   const [isStuck, setIsStuck] = useState(false)
+  const [headerHeight, setHeaderHeight] = useState(60)
 
   // Price Dropdown State
   const [tempMin, setTempMin] = useState(minPrice)
@@ -627,16 +634,26 @@ const FilterBar = memo(function FilterBar({
     return () => document.removeEventListener("mousedown", handleClick)
   }, [])
 
-  // Detect when the bar is "stuck" for enhanced shadow
+  // Measure the live header height so the bar sticks flush beneath it
+  // across all three navbar sizes (default / scrolled-up / scrolled-down),
+  // and detect when the bar is "stuck" for the enhanced shadow.
   useEffect(() => {
     const handleScroll = () => {
+      const header = document.querySelector("header")
+      const h = header ? Math.round(header.getBoundingClientRect().height) : 60
+      setHeaderHeight(h)
       const el = document.getElementById("houses-filters")
       if (!el) return
       const rect = el.getBoundingClientRect()
-      setIsStuck(rect.top <= 61)
+      setIsStuck(rect.top <= h + 1)
     }
+    handleScroll()
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("resize", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleScroll)
+    }
   }, [])
 
   const toggle = (name: string) => setOpenFilter(openFilter === name ? null : name)
@@ -647,7 +664,7 @@ const FilterBar = memo(function FilterBar({
   const sortLabel = sortBy === "recommended" ? "Recommended" : sortBy === "price-low" ? "Price: Low to High" : sortBy === "price-high" ? "Price: High to Low" : sortBy === "rating-high" ? "Rating: High to Low" : "Rating: Low to High"
 
   return (
-    <div className={`fb-bar ${isStuck ? "fb-bar--stuck" : ""}`} id="houses-filters" ref={barRef}>
+    <div className={`fb-bar ${isStuck ? "fb-bar--stuck" : ""}`} id="houses-filters" ref={barRef} style={{ top: headerHeight }}>
       <div className="fb-bar__inner">
         {/* Category Pill */}
         <FilterPill

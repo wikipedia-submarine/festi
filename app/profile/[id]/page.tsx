@@ -228,28 +228,26 @@ export default function PublicProfilePage() {
               </div>
 
               {reviews.length > 0 ? (
-                <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {reviews.map((review) => (
-                    <div key={review.id} className="p-8 rounded-[14px] bg-white border border-[#cecbf6] shadow-sm">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-[#f7f6fd] flex items-center justify-center overflow-hidden border border-[#cecbf6]">
-                            {review.reviewerImage ? (
-                              <img src={review.reviewerImage} alt="" className="w-full h-full object-cover" />
-                            ) : (
-                              <div className="w-full h-full bg-[#26215c] flex items-center justify-center text-white font-bold text-sm">
-                                {(review.reviewerName || "User").split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)}
-                              </div>
-                            )}
-                          </div>
-                          <div>
-                            <p className="font-bold text-[#26215c]">{review.reviewerName}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {review.createdAt ? format(review.createdAt.toDate ? review.createdAt.toDate() : new Date(review.createdAt), "MMM d, yyyy") : "Recently"}
-                            </p>
-                          </div>
+                    <div key={review.id} className="p-5 rounded-[14px] bg-white border border-[#cecbf6] shadow-sm flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-full bg-[#f7f6fd] flex items-center justify-center overflow-hidden border border-[#cecbf6] flex-shrink-0">
+                          {review.reviewerImage ? (
+                            <img src={review.reviewerImage} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full bg-[#26215c] flex items-center justify-center text-white font-bold text-xs">
+                              {(review.reviewerName || "User").split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)}
+                            </div>
+                          )}
                         </div>
-                        <div className="flex items-center gap-1">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-bold text-[#26215c] text-sm truncate">{review.reviewerName}</p>
+                          <p className="text-[11px] text-muted-foreground">
+                            {review.createdAt ? format(review.createdAt.toDate ? review.createdAt.toDate() : new Date(review.createdAt), "MMM d, yyyy") : "Recently"}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-0.5 flex-shrink-0">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <Star 
                               key={star} 
@@ -258,7 +256,7 @@ export default function PublicProfilePage() {
                           ))}
                         </div>
                       </div>
-                      <p className="text-muted-foreground leading-relaxed italic">
+                      <p className="text-[13px] text-muted-foreground leading-relaxed line-clamp-4">
                         &quot;{review.comment}&quot;
                       </p>
                     </div>

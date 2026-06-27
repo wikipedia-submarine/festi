@@ -12,6 +12,9 @@ import Link from "next/link"
 import Image from "next/image"
 import { ProfileSidebar } from "@/components/profileSidebar"
 import { Header } from "@/components/header"
+import { ListPagination } from "@/components/listPagination"
+
+const LISTINGS_PER_PAGE = 6
 
 type VenueStatus = "pending" | "approved" | "rejected"
 
@@ -55,6 +58,7 @@ export default function VenueUploadRequestsPage() {
   const [loading, setLoading] = useState(true)
   const [processingId, setProcessingId] = useState<string | null>(null)
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     if (user) loadVenues()
@@ -107,6 +111,18 @@ export default function VenueUploadRequestsPage() {
 
   const pendingCount = venues.filter((v) => v.status === "pending").length
 
+  const totalPages = Math.max(1, Math.ceil(venues.length / LISTINGS_PER_PAGE))
+  const safePage = Math.min(page, totalPages)
+  const paginatedVenues = venues.slice(
+    (safePage - 1) * LISTINGS_PER_PAGE,
+    safePage * LISTINGS_PER_PAGE
+  )
+
+  const handlePageChange = (next: number) => {
+    setPage(next)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
     <main className="min-h-screen bg-[#f7f6fd] relative font-sans">
       <Header />
@@ -157,7 +173,7 @@ export default function VenueUploadRequestsPage() {
         ) : (
           <div className="space-y-6">
             <AnimatePresence mode="popLayout">
-              {venues.map((venue) => (
+              {paginatedVenues.map((venue) => (
                 <motion.div
                   key={venue.id}
                   layout
@@ -305,6 +321,12 @@ export default function VenueUploadRequestsPage() {
                 </motion.div>
               ))}
             </AnimatePresence>
+
+            <ListPagination
+              currentPage={safePage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         )}
           </div>

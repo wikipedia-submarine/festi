@@ -11,12 +11,16 @@ import { getImageFromFirestore } from "@/lib/cloud-storage"
 import { Header } from "@/components/header"
 import { ProfileSidebar } from "@/components/profileSidebar"
 import { FeaturedVenueCard } from "@/components/featuredVenueCard"
+import { ListPagination } from "@/components/listPagination"
+
+const VENUES_PER_PAGE = 9
 
 export default function SavedVenuesPage() {
   const { user, userProfile, loading: authLoading } = useAuth()
   const { t } = useLanguage()
   const [savedVenues, setSavedVenues] = useState<FirestoreVenue[]>([])
   const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     async function fetchSavedVenues() {
@@ -89,6 +93,18 @@ export default function SavedVenuesPage() {
     )
   }
 
+  const totalPages = Math.max(1, Math.ceil(savedVenues.length / VENUES_PER_PAGE))
+  const safePage = Math.min(page, totalPages)
+  const paginatedVenues = savedVenues.slice(
+    (safePage - 1) * VENUES_PER_PAGE,
+    safePage * VENUES_PER_PAGE
+  )
+
+  const handlePageChange = (next: number) => {
+    setPage(next)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
     <main className="min-h-screen bg-[#f7f6fd] font-sans">
       <Header />
@@ -132,7 +148,7 @@ export default function SavedVenuesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {savedVenues.map((venue) => {
+            {paginatedVenues.map((venue) => {
               const venueName = typeof venue.spaceName === 'string' && venue.spaceName in t.venueData
                 ? t.venueData[venue.spaceName as keyof typeof t.venueData]
                 : venue.spaceName
@@ -155,6 +171,14 @@ export default function SavedVenuesPage() {
               )
             })}
           </div>
+        )}
+
+        {savedVenues.length > 0 && (
+          <ListPagination
+            currentPage={safePage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         )}
 
         {/* Footer CTA */}

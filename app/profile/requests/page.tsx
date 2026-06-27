@@ -11,6 +11,9 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { ProfileSidebar } from "@/components/profileSidebar"
 import { Header } from "@/components/header"
+import { ListPagination } from "@/components/listPagination"
+
+const BOOKINGS_PER_PAGE = 5
 
 function CountdownTimer({ acceptedAt, onTimeout }: { acceptedAt: any, onTimeout: () => void }) {
   const [timeLeft, setTimeLeft] = useState<string>("")
@@ -384,6 +387,12 @@ export default function RequestsDashboard() {
   const [processingId, setProcessingId] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>("sent")
   const [reviewingBooking, setReviewingBooking] = useState<any>(null)
+  const [page, setPage] = useState(1)
+
+  // Reset to the first page whenever the tab changes
+  useEffect(() => {
+    setPage(1)
+  }, [activeTab])
 
   useEffect(() => {
     async function loadRequests() {
@@ -513,6 +522,18 @@ export default function RequestsDashboard() {
   const pendingIncoming = incomingBookings.filter(b => b.status === "pending").length
   const pendingSent = sentBookings.filter(b => b.status === "pending").length
 
+  const totalPages = Math.max(1, Math.ceil(currentBookings.length / BOOKINGS_PER_PAGE))
+  const safePage = Math.min(page, totalPages)
+  const paginatedBookings = currentBookings.slice(
+    (safePage - 1) * BOOKINGS_PER_PAGE,
+    safePage * BOOKINGS_PER_PAGE
+  )
+
+  const handlePageChange = (next: number) => {
+    setPage(next)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
     <main className="min-h-screen bg-background relative font-sans">
       <Header />
@@ -607,7 +628,7 @@ export default function RequestsDashboard() {
           </div>
         ) : (
           <div className="space-y-6">
-            {currentBookings.map((booking) => (
+            {paginatedBookings.map((booking) => (
               <BookingCard
                 key={booking.id}
                 booking={booking}
@@ -620,6 +641,12 @@ export default function RequestsDashboard() {
                 onTimeout={handleTimeout}
               />
             ))}
+
+            <ListPagination
+              currentPage={safePage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         )}
           </div>
