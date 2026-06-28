@@ -1,0 +1,1429 @@
+/* ═══════════════════════════════════════════════════════════ */
+/*  BASE & LAYOUT                                              */
+/* ═══════════════════════════════════════════════════════════ */
+.houses-page-wrapper {
+  background-color: #F7F6FD;
+  min-height: 100vh;
+}
+
+.houses-layout {
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  gap: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  HERO                                                       */
+/* ═══════════════════════════════════════════════════════════ */
+.houses-hero {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.houses-hero__image {
+  /* Next.js Image component handles object-fit via style prop */
+}
+
+.houses-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+  z-index: 1;
+}
+
+.houses-hero__typography {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 0 20px;
+}
+
+.houses-hero__title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.houses-hero__subtext {
+  font-size: 1.25rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .houses-hero__title {
+    font-size: 2.5rem;
+  }
+
+  .houses-hero__subtext {
+    font-size: 1.1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  STICKY FILTER BAR (PREMIUM)                                */
+/* ═══════════════════════════════════════════════════════════ */
+.fb-bar {
+  position: sticky;
+  top: 60px;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid transparent;
+  padding: 12px 24px;
+  transition: all 250ms ease;
+}
+
+@media (max-width: 768px) {
+  .fb-bar {
+    /* Mobile header is shorter (~47px) than desktop, so stick flush beneath it */
+    top: 46px;
+  }
+}
+
+.fb-bar--stuck {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.fb-bar__inner {
+  max-width: calc(1600px - 48px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+/* PILL WRAPPER */
+.fb-pill-wrap {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* PILL BUTTON */
+.fb-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 16px;
+  background: #ffffff;
+  border: 1px solid #cecbf6;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(107, 122, 144, 0.04);
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.fb-pill:active {
+  transform: scale(0.97);
+}
+
+.fb-pill:hover {
+  border-color: #9b95dc;
+  box-shadow: 0 4px 12px rgba(107, 122, 144, 0.08);
+}
+
+.fb-pill--active {
+  border: 2px solid #26215c;
+  padding: 0 15px; /* Offset 1px border increase to prevent layout shift (16px -> 15px) */
+  background: #f7f6fd;
+}
+.fb-pill--active .fb-pill__label {
+  font-weight: 600;
+}
+.fb-pill--active .fb-pill__value {
+  font-weight: 800;
+}
+
+.fb-pill--open {
+  border-color: #26215c;
+  box-shadow: 0 0 0 2px rgba(38, 33, 92, 0.1);
+}
+
+/* PILL LABEL & VALUE */
+.fb-pill__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #7a7599;
+  flex-shrink: 0;
+}
+
+.fb-pill__value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #26215c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fb-pill__arrow {
+  width: 14px;
+  height: 14px;
+  color: #534ab7;
+  transition: transform 0.2s ease;
+  margin-left: 2px;
+}
+
+.fb-pill__arrow--open {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 1200px) {
+  .fb-bar__inner {
+    gap: 8px;
+  }
+  .fb-pill {
+    padding: 0 12px;
+    gap: 6px;
+  }
+  .fb-pill__label {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .fb-bar__inner {
+    gap: 6px;
+  }
+  .fb-pill {
+    padding: 0 10px;
+    gap: 4px;
+  }
+  .fb-pill__input {
+    width: 50px;
+  }
+  .fb-pill__input--solo {
+    width: 55px;
+  }
+}
+
+/* PRICE RANGE SLIDER */
+.price-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.price-slider-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #26215c;
+  cursor: grab;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  position: relative;
+  margin-top: -8px; /* centers thumb on track */
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.price-slider-thumb::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.15);
+  background: #f7f6fd;
+}
+
+.price-slider-thumb::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 6px;
+}
+
+/* GUESTS INPUT (Keep for Guests pill) */
+.fb-pill--inputs {
+  cursor: default;
+}
+.fb-pill--inputs:hover {
+  border-color: #e2e0f9;
+}
+.fb-pill--inputs:focus-within {
+  border-color: #26215c;
+}
+.fb-pill__input {
+  width: 60px;
+  height: 28px;
+  padding: 0 8px;
+  background: #f7f6fd;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #26215c;
+  outline: none;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+.fb-pill__input::placeholder {
+  color: #afa9ec;
+  font-weight: 500;
+}
+.fb-pill__input:focus {
+  background: #ffffff;
+  border-color: #7f77dd;
+  box-shadow: 0 0 0 2px rgba(127, 119, 221, 0.1);
+}
+.fb-pill__input--solo {
+  width: 68px;
+}
+
+/* Remove number input arrows */
+.fb-pill__input::-webkit-inner-spin-button,
+.fb-pill__input::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* DROPDOWN POPUP */
+.fb-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: #ffffff;
+  border: 1px solid #cecbf6;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(107, 122, 144, 0.14), 0 4px 12px rgba(107, 122, 144, 0.06);
+  padding: 8px;
+  z-index: 100;
+  animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top left;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.fb-dropdown__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #26215c;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fb-dropdown__item:hover {
+  background: #f7f6fd;
+}
+
+.fb-dropdown__item--selected {
+  font-weight: 700;
+  background: #f7f6fd;
+}
+
+.fb-dropdown__check {
+  width: 16px;
+  height: 16px;
+  color: #26215c;
+}
+
+/* MULTI-SELECT CHECKBOX DROPDOWN */
+.fb-dropdown--multi .fb-dropdown__item {
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.fb-dropdown__checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid #cecbf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fb-dropdown__checkbox--checked {
+  background-color: #26215c;
+  border-color: #26215c;
+}
+
+/* CLEAR BUTTON */
+.fb-clear {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 48px;
+  padding: 0 16px;
+  border: none;
+  background: transparent;
+  color: #534ab7;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fb-clear:hover {
+  background: #f7f6fd;
+  color: #26215c;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .fb-bar {
+    padding: 10px 16px;
+  }
+
+  /* Wrap pills onto multiple rows so all filters stay visible */
+  .fb-bar__inner {
+    flex-wrap: wrap;
+    row-gap: 8px;
+    gap: 8px;
+  }
+
+  .fb-pill-wrap {
+    flex-shrink: 0;
+    min-width: auto;
+  }
+
+  .fb-pill {
+    height: 40px;
+    padding: 0 14px;
+    flex-shrink: 0;
+  }
+
+  .fb-pill__value {
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  /* Keep the Sort pill flush at the end of the scroll row */
+  .fb-bar__inner > .ml-auto {
+    margin-left: 0;
+  }
+
+  .fb-pill__label {
+    display: none; /* Hide labels on mobile to save space */
+  }
+  
+  .fb-pill__input {
+    height: 26px;
+  }
+  
+  .fb-clear {
+    height: 40px;
+    padding: 0 12px;
+  }
+  .fb-clear svg {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  CONTENT AREA & GRID                                        */
+/* ═══════════════════════════════════════════════════════════ */
+.houses-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.houses-content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.houses-content__count {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #26215c;
+}
+
+.houses-content__sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #7F77DD;
+  border: 1px solid #7F77DD;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.houses-content__sort:hover {
+  background-color: #534AB7;
+  border-color: #534AB7;
+}
+
+.houses-content__sort svg {
+  color: #FFFFFF;
+}
+
+.houses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 32px;
+}
+
+@media (max-width: 1280px) {
+  .houses-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .houses-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .houses-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  PROPERTY CARD (PREMIUM DESIGN)                             */
+/* ═══════════════════════════════════════════════════════════ */
+.houses-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  height: 100%;
+  overflow: hidden;
+}
+
+.houses-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.houses-card__image-wrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: inherit;
+  overflow: hidden;
+  margin-bottom: 0;
+  backface-visibility: hidden;
+}
+
+.houses-card__slider {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.houses-card:hover .houses-card__slider {
+  opacity: 1;
+}
+
+.houses-card__slider-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.98);
+  color: #26215c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.houses-card__slider-btn:hover {
+  background: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.houses-card__thumbs {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.houses-card:hover .houses-card__thumbs {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.houses-card__thumb {
+  position: relative;
+  width: 48px;
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+  background: #f0f0f5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.houses-card__thumb:hover {
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.houses-card__thumb--active {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 1.5px #26215c, 0 4px 12px rgba(0,0,0,0.3);
+  transform: scale(1.1);
+}
+
+.houses-card__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.houses-card__favorite {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid #e2e0f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.houses-card__favorite:hover {
+  transform: scale(1.05);
+  background: #f7f6fd;
+}
+
+.houses-card__favorite:active {
+  transform: scale(0.9);
+}
+
+.houses-card__location-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.houses-card:hover .houses-card__location-badge {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+}
+
+.houses-card__body {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  flex: 1;
+}
+
+.houses-card__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #18181b; /* Near black for premium contrast */
+  margin-bottom: 6px;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.houses-card__desc {
+  font-size: 13px;
+  color: #9b95dc;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.houses-card__read-more {
+  font-size: 14px;
+  font-weight: 600;
+  color: #18181b;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+
+
+.houses-card__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.houses-card__price-amount {
+  font-size: 26px;
+  font-weight: 900;
+  color: #26215c;
+  letter-spacing: -0.02em;
+}
+
+.houses-card__price-period {
+  font-size: 14px;
+  font-weight: 500;
+  color: #9b95dc;
+}
+
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  PAGINATION                                                 */
+/* ═══════════════════════════════════════════════════════════ */
+.houses-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 56px;
+}
+
+.houses-pagination__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #534ab7;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.houses-pagination__btn--nav {
+  min-width: auto;
+  padding: 0 16px;
+}
+
+.houses-pagination__btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.houses-pagination__btn--active {
+  background: #7F77DD !important;
+  border-color: #7F77DD !important;
+  color: #fff !important;
+}
+
+.houses-pagination__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.houses-pagination__dots {
+  color: #afa9ec;
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  SKELETON LOADER                                            */
+/* ═══════════════════════════════════════════════════════════ */
+.houses-skeleton-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.houses-skeleton-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 16px;
+  background: #f7f6fd;
+  margin-bottom: 12px;
+}
+
+.houses-skeleton-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.houses-skeleton-line {
+  height: 16px;
+  border-radius: 4px;
+  background: #f7f6fd;
+}
+
+.houses-skeleton-line--short {
+  width: 50%;
+}
+
+.houses-skeleton-line--medium {
+  width: 75%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Bounce on active — scoped to avoid affecting slider nav arrows */
+.houses-card button:active,
+.bc-card button:active,
+.fb-bar button:active,
+.houses-pagination__btn:active {
+  transform: scale(0.97);
+}
+
+.houses-card__image {
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.3s ease;
+  will-change: transform;
+}
+
+.houses-card__image.loaded {
+  opacity: 1;
+}
+
+.houses-card:hover .houses-card__image {
+  transform: scale(1.04);
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  LIST YOUR SPACE SECTION                                    */
+/* ═══════════════════════════════════════════════════════════ */
+.houses-list-space-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.houses-list-space-card {
+  display: flex;
+  background: white;
+  border: 1px solid #CECBF6;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 320px;
+}
+
+@media (max-width: 768px) {
+  .houses-list-space-card {
+    flex-direction: column;
+  }
+
+  .houses-list-space-card>div:last-child {
+    width: 100% !important;
+    height: 240px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  BIRTHDAY CENTER CARD (HORIZONTAL LAYOUT)                   */
+/* ═══════════════════════════════════════════════════════════ */
+.bc-card {
+  display: flex;
+  flex-direction: row;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  overflow: hidden;
+  min-height: 220px;
+  /* Inner padding so the image's drop shadow is visible inside the card */
+  padding: 16px;
+}
+
+.bc-card:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.bc-card__image-section {
+  position: relative;
+  width: 42%;
+  min-width: 280px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  /* No outer drop shadow — the shadow lives inside the image (see ::after) */
+}
+
+/* Dark gradient overlay + inset shadow so the shadow sits inside the image */
+.bc-card__image-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.08) 40%, transparent 100%);
+  box-shadow: inset 0 0 30px 4px rgba(0, 0, 0, 0.4);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+.bc-card:hover .bc-card__image-section::after {
+  opacity: 0.3;
+}
+
+.bc-card__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+  will-change: transform;
+}
+
+.bc-card__image.loaded {
+  opacity: 1;
+}
+
+.bc-card:hover .bc-card__image {
+  /* Zoom removed on hover for birthday center cards */
+  transform: none;
+}
+
+/* Category label – subtle inline text, not a badge overlay */
+.bc-card__category-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #534ab7;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.bc-card__favorite {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e0f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bc-card__favorite:hover {
+  transform: scale(1.05);
+  background: #f7f6fd;
+}
+
+.bc-card__favorite:active {
+  transform: scale(0.9);
+}
+
+.bc-card__slider {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.bc-card:hover .bc-card__slider {
+  opacity: 1;
+}
+
+.bc-card__slider-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.98);
+  color: #26215c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  transition: transform 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.bc-card__slider-btn:hover {
+  background: #ffffff;
+  transform: scale(1.1);
+}
+
+.bc-card__dots {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 10;
+}
+
+.bc-card__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.bc-card__dot--active {
+  background: #fff;
+  transform: scale(1.25);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.bc-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 20px 12px 28px;
+  min-width: 0;
+  gap: 0;
+}
+
+.bc-card__body-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.bc-card__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #18181b;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 6px 0 0 0;
+}
+
+.bc-card__location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7a7599;
+  margin-top: 8px;
+}
+
+.bc-card__desc {
+  font-size: 13px;
+  color: #9b95dc;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 10px 0 0 0;
+}
+
+.bc-card__guests {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #534ab7;
+  margin-top: 14px;
+}
+
+.bc-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.bc-card__price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.bc-card__price-amount {
+  font-size: 26px;
+  font-weight: 900;
+  color: #26215c;
+  letter-spacing: -0.02em;
+}
+
+.bc-card__price-period {
+  font-size: 14px;
+  font-weight: 500;
+  color: #9b95dc;
+}
+
+.bc-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #26215c;
+}
+
+.bc-card__cta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 700;
+  color: #26215c;
+  background: #f7f6fd;
+  border-radius: 14px;
+  padding: 10px 18px;
+  transition: all 0.2s ease;
+}
+
+.bc-card:hover .bc-card__cta {
+  background: #26215c;
+  color: #fff;
+}
+
+/* Birthday Center Card – Mobile */
+@media (max-width: 768px) {
+  .bc-card {
+    flex-direction: column;
+    min-height: unset;
+    padding: 12px;
+  }
+
+  .bc-card__image-section {
+    width: 100%;
+    min-width: unset;
+    aspect-ratio: 16/9;
+  }
+
+  .bc-card__body {
+    padding: 14px 8px 6px;
+  }
+
+  .bc-card__title {
+    font-size: 18px;
+  }
+
+  .bc-card__cta {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  CATEGORY SLIDER SECTIONS (ALL CATEGORIES VIEW)             */
+/* ═══════════════════════════════════════════════════════════ */
+.cat-slider-section {
+  margin-bottom: 48px;
+}
+
+.cat-slider-section:last-child {
+  margin-bottom: 0;
+}
+
+.cat-slider__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  /* Align title/see-all with the start/end of the cards (track-wrap padding) */
+  padding: 0 28px;
+}
+
+.cat-slider__title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #26215c;
+  letter-spacing: -0.03em;
+}
+
+.cat-slider__see-all {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #534ab7;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.cat-slider__see-all:hover {
+  background: #f7f6fd;
+  color: #26215c;
+}
+
+.cat-slider__track-wrap {
+  position: relative;
+  padding: 0 28px; /* Make room for arrows on sides */
+}
+
+.cat-slider__track {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+
+.cat-slider__track::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+  Houses / Spaces: 3 cards per page.
+  gap = 24px → 2 gaps per 3 cards → each card = calc((100% - 48px) / 3)
+*/
+.cat-slider__track--houses {
+  gap: 24px;
+}
+
+.cat-slider__track--houses > .houses-card {
+  min-width: calc((100% - 48px) / 3);
+  max-width: calc((100% - 48px) / 3);
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/*
+  Birthday Centers: 2 cards per page.
+  gap = 24px → 1 gap per 2 cards → each card = calc((100% - 24px) / 2)
+*/
+.cat-slider__track--birthday {
+  gap: 24px;
+}
+
+.cat-slider__track--birthday > .bc-card {
+  min-width: calc((100% - 24px) / 2);
+  max-width: calc((100% - 24px) / 2);
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* Slider nav arrows — styled like homepage featured venues buttons */
+.cat-slider__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f7f6fd;
+  border: 1px solid #cecbf6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #534ab7;
+  transition: all 75ms ease;
+}
+
+.cat-slider__arrow:hover {
+  background: #26215c;
+  color: #fff;
+  border-color: #26215c;
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 14px rgba(38, 33, 92, 0.2);
+}
+
+.cat-slider__arrow:active {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.cat-slider__arrow--left {
+  left: -22px;
+}
+
+.cat-slider__arrow--right {
+  right: -22px;
+}
+
+@media (max-width: 1024px) {
+  /* 2 cards per page on medium screens for houses */
+  .cat-slider__track--houses > .houses-card {
+    min-width: calc((100% - 24px) / 2);
+    max-width: calc((100% - 24px) / 2);
+  }
+
+  /* 1 card per page for birthday on medium */
+  .cat-slider__track--birthday > .bc-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .cat-slider__track-wrap {
+    padding: 0; /* No arrow padding on mobile */
+  }
+
+  .cat-slider__header {
+    padding: 0; /* Align with edge-to-edge cards on mobile */
+  }
+
+  /* 1 card per page on mobile for all */
+  .cat-slider__track--houses > .houses-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .cat-slider__track--birthday > .bc-card {
+    min-width: 100%;
+    max-width: 100%;
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .cat-slider__track--birthday > .bc-card .bc-card__image-section {
+    width: 100%;
+    min-width: unset;
+    aspect-ratio: 16/9;
+    height: 180px;
+  }
+
+  .cat-slider__track--birthday > .bc-card .bc-card__body {
+    padding: 14px 8px 6px;
+  }
+
+  .cat-slider__track--birthday > .bc-card {
+    padding: 12px;
+  }
+
+  .cat-slider__track--birthday > .bc-card .bc-card__cta {
+    display: none;
+  }
+
+  .cat-slider__title {
+    font-size: 20px;
+  }
+
+  .cat-slider__arrow {
+    display: none;
+  }
+}
